@@ -8,7 +8,7 @@ A Python script to collect and filter **recent Codeforces contest problems** by 
 
 ## ❓ Why not just solve old Codeforces problems?
 
-Older Codeforces problems often don't reflect the **current style** or **difficulty progression** seen in today's contests. If you're practicing with problems from years ago, you're likely building intuition that's no longer optimal for recent rated rounds.
+Older Codeforces problems often don't reflect the **current style** or **difficulty progression** seen in today's contests. If you're practicing with problems from years ago, you're likely building intuition that's not so much optimal for recent rated rounds.
 
 ---
 
@@ -18,8 +18,8 @@ This script helps you **collect problems from recent contests only**, filtered b
 
 - **Division**: Div. 1, Div. 2, Div. 3, or Div. 4  
 - **Problem Index**: A, B, C, D, etc.  
-- **Date Range**: Only contests from the **last 2 years**  
-- **Contest Type**: Rated contests only (no unrated/testing rounds)
+- **Date Range**: Only contests from the **last 2 years** you can change the time duration  
+- **Contest Type**: Rated ,Unrated 
 
 It then saves the problems into a **CSV file** with metadata like tags, rating, and direct links — ready for structured practice.
 
@@ -212,4 +212,4 @@ Unlike tools that show the entire problemset, this one:
 ---
 
 ## ⭐ Found this useful?
-Star the repo, share it with fellow CP learners, or drop suggestions in the issues tab!
+Star the repo, share it with fellow CP learners, or drop suggestions..
