@@ -39,3 +39,71 @@ It then saves the problems into a **CSV file** with metadata like tags, rating, 
 ```bash
 pip install requests
 
+### 2. Edit two lines in the script:
+```python
+selected_div = "div. 2"    # Choose from: "div. 1", "div. 2", "div. 3", "div. 4"
+problem_index = "B"        # Set the problem index you're practicing
+```
+
+### 3. Run the script:
+```bash
+python cf_recent_problem_scraper.py
+```
+
+### 4. Get your CSV:
+Your filtered problems will be saved with ratings, tags, links, and a checkbox column.
+
+---
+## ❓ What does the CSV contain?
+
+Each row includes:
+
+- Contest name  
+- Problem name  
+- Problem rating  
+- Problem tags  
+- Direct problem link  
+- A column to mark as "complete" ✔️
+
+Perfect for building your own practice tracker!
+
+---
+
+## ❓ Why focus on recent contest problems?
+
+Practicing modern problems helps you:
+
+- Train on **up-to-date patterns**
+- Prepare for upcoming contests more effectively
+- Skip outdated styles and low-relevance questions
+- Build **relevant problem-solving muscle**
+
+This is especially important if you plan to participate in rated contests soon.
+
+---
+
+## ❓ What makes this tool different?
+
+Unlike tools that show the entire problemset, this one:
+
+✅ Filters **recent contests only**  
+✅ Filters by **division and index**  
+✅ Saves everything neatly to CSV  
+✅ Lets you stay focused and skip searching manually
+
+---
+
+## 📎 License
+
+This project is licensed under the **MIT License** — free to use, modify, and distribute.
+
+---
+
+## 🔗 Related Tags
+
+`codeforces` · `competitive-programming` · `practice-tool` · `python-script` · `cf-api` · `recent-contests`
+
+---
+
+## ⭐ Found this useful?
+Star the repo, share it with fellow CP learners, or drop suggestions in the issues tab!
