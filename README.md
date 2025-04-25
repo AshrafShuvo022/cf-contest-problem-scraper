@@ -47,7 +47,119 @@ problem_index = "B"        # Set the problem index you're practicing
 
 ### 3. Run the script:
 ```bash
-python cf_recent_problem_scraper.py
+import requests
+import csv
+from datetime import datetime, timedelta
+
+def fetch_contests():
+    url = "https://codeforces.com/api/contest.list"
+    response = requests.get(url)
+    return response.json()
+
+def fetch_problem(contest_id, problem_index):
+    url = f"https://codeforces.com/api/contest.standings?contestId={contest_id}&from=1&count=10"
+    response = requests.get(url)
+    if response.status_code == 200 and response.json()["status"] == "OK":
+        problems = response.json()["result"]["problems"]
+        for problem in problems:
+            if problem["index"] == problem_index:
+                return {
+                    "index": problem["index"],
+                    "name": problem["name"],
+                    "rating": problem.get("rating", "N/A"),
+                    "tags": ", ".join(problem.get("tags", [])),
+                    "link": f"https://codeforces.com/contest/{contest_id}/problem/{problem['index']}"
+                }
+    return None
+
+def save_to_csv(data, filename):
+    with open(filename, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(
+            file,
+            fieldnames=["contest_name", "problem_name", "rating", "tags", "link", "complete"]
+        )
+        writer.writeheader()
+        for row in data:
+            row["complete"] = ""
+            writer.writerow(row)
+
+# 📌 MANUAL CONFIGURATION SECTION — Edit these two values as your input
+selected_div = "div. 2"      # Options: "div. 1", "div. 2", "div. 3"
+problem_index = "A"          # Example: "A", "B", "C", "D", "E", etc.
+
+def is_index_ge(index: str, target: str) -> bool:
+    return ord(index.upper()) >= ord(target.upper())
+
+def is_index_le(index: str, target: str) -> bool:
+    return ord(index.upper()) <= ord(target.upper())
+
+def match_div(contest_name: str, selected_div: str, index: str) -> bool:
+    name = contest_name.lower()
+
+    if selected_div == "div. 1":
+        if "div. 1" in name:
+            return True
+        if "div. 1 + div. 2" in name or "div. 2 + div. 1" in name:
+            return is_index_ge(index, "E")
+        return False  # 
+
+    elif selected_div == "div. 2":
+        if "div. 2" in name or "educational" in name:
+            return True
+        if "div. 1 + div. 2" in name or "div. 2 + div. 1" in name:
+            return is_index_le(index, "D")
+        return False
+
+    elif selected_div == "div. 3":
+        return "div. 3" in name
+    
+    elif selected_div == "div. 4":
+        return "div. 4" in name
+
+    return False
+
+def main():
+    OUTPUT_DIR = "D:/"
+
+    data = fetch_contests()
+    if data["status"] != "OK":
+        print("❌ Failed to fetch contests.")
+        return
+
+    now = datetime.now()
+    two_years_ago = now - timedelta(days=730) #Set Days (Manually)
+    filtered_rows = []
+
+    for contest in data["result"]:
+        if contest["id"] >= 100000 or "startTimeSeconds" not in contest:
+            continue
+
+        contest_name = contest["name"]
+        start_time = datetime.fromtimestamp(contest["startTimeSeconds"])
+        if not (two_years_ago <= start_time <= now):
+            continue
+
+        if not match_div(contest_name, selected_div, problem_index):
+            continue
+
+        problem = fetch_problem(contest["id"], problem_index)
+        if problem:
+            row = {
+                "contest_name": contest["name"],
+                "problem_name": problem["name"],
+                "rating": problem["rating"],
+                "tags": problem["tags"],
+                "link": problem["link"]
+            }
+            filtered_rows.append(row)
+
+    filename = f"{OUTPUT_DIR}/cf_{selected_div.replace('.', '').replace(' ', '')}_problem_{problem_index.lower()}.csv"
+    save_to_csv(filtered_rows, filename)
+    print(f"✅ Saved {len(filtered_rows)} problems to '{filename}'")
+
+if __name__ == "__main__":
+    main()
+
 ```
 
 ### 4. Get your CSV:
@@ -90,12 +202,6 @@ Unlike tools that show the entire problemset, this one:
 ✅ Filters by **division and index**  
 ✅ Saves everything neatly to CSV  
 ✅ Lets you stay focused and skip searching manually
-
----
-
-## 📎 License
-
-This project is licensed under the **MIT License** — free to use, modify, and distribute.
 
 ---
 
