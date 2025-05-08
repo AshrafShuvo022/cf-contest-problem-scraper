@@ -2,6 +2,11 @@
 
 # Codeforces Recent Contest Problem Collector 🧠
 
+### 👀 Profile Views:
+<p align="left">
+  <img src="https://komarev.com/ghpvc/?username=AshrafShuvo022&style=flat-square&color=blue" />
+</p>
+
 A Python script to collect and filter **recent Codeforces contest problems** by division and index — perfect for effective, modern competitive programming practice.
 
 ---
